@@ -52,10 +52,10 @@ set ::env(VERILOG_FILES) "\
 
 set ::env(VERILOG_FILES_BLACKBOX) "\
 	$script_dir/../../verilog/rtl/defines.v \
-	$script_dir/../../verilog/rtl/user_proj_example.v"
+	$script_dir/../../verilog/rtl/prng_proj.v"
 
 set ::env(EXTRA_LEFS) "\
-	$script_dir/../../lef/user_proj_example.lef"
+	$script_dir/../../lef/prng_proj.lef"
 
 set ::env(EXTRA_GDS_FILES) "\
-	$script_dir/../../gds/user_proj_example.gds"
+	$script_dir/../../gds/prng_proj.gds"

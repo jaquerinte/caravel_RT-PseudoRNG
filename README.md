@@ -15,6 +15,33 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 -->
+# RT-PseudoRNG
+
+A pseudo random number generator oriented towards random cache placement and replacement for critical real-time processors.
+
+The `prng_proj` module, contained in the `prng_proj.v` verilog file, offers an implementation of a pseudo random number generator. Such module is based on a parametric hash function used to randomise the cache placement. The following Figure shows our implementation of the parametric placement function:
+
+<p align=”center”>
+<img src="/doc/prng_func.png" width="75%" height="75%"> 
+</p>
+
+The hash function rotates the address bits, based on some bits of the random index identifier (RII) as it is shown in the two rightmost rotate blocks of the figure. By doing this, we ensure that when a different RII is used, the mapping of that address changes. Analogously, the address bits are rotated based on some bits of the address itself. This operation, which is performed by the two leftmost rotate blocks, changes the way that the addresses are shifted. Note that addresses are padded with zeros to obtain a power-of-two number of bits, so address bits can be rotated without any constraint.
+
+Finally, all bits of the rotated addresses, the original addressand the RII (187 bits in the example), are XORed successively, until we obtain the desired number of bits for indexing the cachesets
+
+In the verilog implementation we will find the rotating register `lfsr` that we use to generate random numbers:
+```Verilog
+always @(posedge clk) begin
+    if (rst == 0) begin
+	        lfsr[WIDTH-1:0] <= 0;
+    end else begin
+	        lfsr[WIDTH-1:0] <= {lfsr[164:0],xnor_o};
+    end
+end
+```
+
+Reference: https://people.ac.upc.edu/fcazorla/articles/lkosmidis_date_2013a.pdf
+
 # CIIC Harness  
 
 A template SoC for Google SKY130 free shuttles. It is still WIP. The current SoC architecture is given below.
