@@ -110,7 +110,7 @@ module prng_proj #(
     end
 
     always @(posedge clk) begin
-        if (rst == 0) begin
+	    if (rst == 1) begin
 	        lfsr[WIDTH-1:0] <= 0;
         end else begin
 	        lfsr[WIDTH-1:0] <= {lfsr[164:0],xnor_o};
